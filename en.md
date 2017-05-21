@@ -236,11 +236,11 @@ and to show you how this can be solved quite easily I'm gonna take first a bit d
 
 ```javascript
 class Person {
-  firstName = "Michel"
-  lastName = "Weststrate"
+  firstName = 'Michel'
+  lastName = 'Weststrate'
 
   get fullName() {
-    console.log("calculating!")
+    console.log('calculating!')
     return [this.firstName, this.lastName]
   }
 }
@@ -249,7 +249,7 @@ class Person {
 so here you have a plain JavaScript class and it has a full name kettle property so it's that it's um you inspect the full name property of this object it will evaluate and there's something nasty in it because it will return an array so it's um you evaluate this function you'll get a fresh array that's a bad thing 
 
 ```javascript
-person.firstName = "John"
+person.firstName = 'John'
 
 console.log(person.fullName)
 // calculating!
@@ -263,11 +263,11 @@ so if you change first name and then you expect the full name it will say calcul
 
 ```javascript
 class Person {
-  @observable firstName = "Michel"
-  @observable lastName = "Weststrate"
+  @observable firstName = 'Michel'
+  @observable lastName = 'Weststrate'
 
   @computed get fullName() {
-    console.log("calculating!")
+    console.log('calculating!')
     return [this.firstName, this.lastName]
   }
 }
@@ -276,7 +276,7 @@ class Person {
 but actually if you have observable data sources and reactive derivations there's a version of control so because data is no longer pull through your system but push through your system it's actually a room time behavior is different so if you have now to observe all attributes and the computer to format 
 
 ```javascript
-person.firstName = "John"
+person.firstName = 'John'
 // calculating!
 
 console.log(person.fullName)
@@ -292,7 +292,7 @@ then what will happen if we change the first name that will trigger the computed
 ```javascript
 class Todo {
   @observable id = 0
-  @observable text = ""
+  @observable text = ''
   @observable completed = false
 
   @computed get json() {
@@ -386,10 +386,10 @@ snapshot => observable({ ...exampleModel, ...snapshot })
 and so basically it's effectively just creates a new observer object based on a copy of the example model and mix it in any snapshot you provide to it so if you had some previous snapshots of a few states that will make sure that that state is represented in the new instance you get 
 
 ```javascript
-import { createFactory } from "mobx-state-tree"
+import { createFactory } from 'mobx-state-tree'
 
 const Box = createFactory({
-    name: "A cool box instance",
+    name: 'A cool box instance',
     x: 0,
     y: 0,
 
@@ -402,18 +402,18 @@ const Box = createFactory({
 so a box factory just looked like this test three attributes also we made observe ball and they compute this value 
 
 ```javascript
-const box1 = Box({ name: "Hello, Reactive2016!" })
+const box1 = Box({ name: 'Hello, Reactive2016!' })
 ```
 
 and then we can create a new books by just providing a complete or partial snapshot 
 
 ```javascript
-import {createFactory, mapOf, arrayOf} from "mobx-state-tree"
+import {createFactory, mapOf, arrayOf} from 'mobx-state-tree'
 
 const Store = createFactory({
     boxes: mapOf(Box),
     arrows: arrayOf(Arrow),
-    selection: ""
+    selection: ''
 })
 ```
 
@@ -492,7 +492,7 @@ const todo = clone(exampleTodo)
 todo.markCompleted()
 
 assert.deepEqual(getSnapshot(todo), {
-  title: "test", completed: true
+  title: 'test', completed: true
 })
 ```
 
