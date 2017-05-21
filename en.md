@@ -54,7 +54,7 @@ so that means that the consistency of your I your UI is always guaranteed whenev
 
 so the basic flow of data and Mobius is that there's a central state which captures all your states of your application and it should be as small as possible because many things can just be derived from a state like ashes like the dome those are all just computed values so from the state they're computed values are derived and also side effects might be triggered for example if you change some data a network request might need to be made and so whenever it has an action influences your state we know that everything that comes after the state will be consistent 
 
-### MobX Core
+## MobX Core
 
 so there are four essential functions in the API all phone bags and one is observable and it's a function that's our decorator that takes objects or arrays or primitive values and just make sure that mobius is able to track what happens to these pieces of data and there's altering we just solve it and relates to Oren is observer which basically puts a yet component in an alterant function so trigger ends whenever relevant data exchange computed values are very similar they also take a take an expression and reevaluate it's where needed but there's one smart thing about compute its values is that because it's a value and no they side effects we know when it's Edith and when it is not so if there's a computer to tell you which is used by nobody will make sure we'll make sure it's never evaluated so actually it's achieves lazy evaluation and finally our actions and those are an optional concept but they are used to make clear where you intend to change your state mo bigs can optimize around that 
 
@@ -62,7 +62,7 @@ so there are four essential functions in the API all phone bags and one is obser
 
 <cut>
 
-### Mendix / Live Demo
+## Mendix / Live Demo
 
 so this is what we use a public forum index [this](https://www.mendix.com/collaborative-visual-development/) is an application available studio you can drag a widget and change them there for properties so you can build forms and pages it was actually more interesting is that we also have a designer which you can design your database so these are basically database tables these are associations and what we make sure is that whenever we drag things around now for example you see the arrows moving around and actually we didn't do anything special for that basically robux just make sure for us that that is kept consistent and i'll show you how that works in a simplified version 
 
@@ -98,7 +98,7 @@ we node need to know is what is the shape of the data we have with which classes
 
 </cut>
 
-### Example: validation rules
+## Example: validation rules
 
 ```javascript
 function carInvariant(car, rules) {
@@ -111,11 +111,11 @@ function carInvariant(car, rules) {
 
 so and one example wires that's very religious very relevance our validation rules so when is a mobic function and it's just tracks the first function and after that evaluates is true it executes the second one and so we have here a function that's checks if the speed of a car exceeds the speed limit and if that happens then a fine will be sent so that's basically a side effect will be triggers now what's interesting is it doesn't matter where or when the speed or the speed limit of those concepts exchange but if it changed and this equation returns true we know for sure that the fine will be sent does the guarantee mo big gives us so what are actually rules and our system look like is always a bit like this they walk over the complete data tree and check all settings properties and check if there are double names and if the correct address type is selected and if the type of the attributes and database matches the inputs witcha type it's a one big mess are hundreds of hundreds of these rules and so we cannot possibly track our cells when with rule need to be fired the cool thing is that we don't have to we know that the correct rules are fired if an important piece of data that influences that rule exchange and we know that the other rules won't be fired and so these rules are always feasible and all the actors have influence on when these rules are run but rules are retained by a separate team and they don't care when somebody else changes the data 
 
-### MobX so far...
+## MobX so far...
 
 so that is generally what index does its essence and if you want to look through this in more detail just take a decade course it's a free text you half an hour and then you have seen all the essential concepts of no bags and I started making this up short about roughly a year ago and in the meantime it has grown significantly it's got the 5000 * shal get up at syme right pried off especially because it's not back by Facebook or something and also got into the top 1% download the pictures on NPM and what's amazing the most was that it's turned out to be the second most popular state management library in the region JavaScript survey and it's also nice to know that's not just used in the reactor will but also without a framework 
 
-### The Reactions
+## The Reactions
 
 > It's so simple and fast :)
 
@@ -141,11 +141,11 @@ and so people are happy that it uses mutable data because that's step forward to
 
 but on the other hand people are set because it doesn't use immutable data because immutable data has all these nice mathematical properties 
 
-##### Immutable or Mutable Data?
+### Immutable or Mutable Data?
 
 so a lot of questions to answer is should you use immutable a beautiful data especially in the reactor world that's quite a question 
 
-##### Redux or MobX?
+### Redux or MobX?
 
 or will also say should you use radix or mobiles 
 
@@ -153,7 +153,7 @@ or will also say should you use radix or mobiles
 
 or maybe even better question Elsa or Anna you might be wondering how that relates but the basic point is I have two small daughters so this is a question I get the most they're always arguing over who should have should play who 
 
-##### Immutable Data
+### Immutable Data
 
 1. State snapshots
 2. Replayable actions
@@ -163,7 +163,7 @@ or maybe even better question Elsa or Anna you might be wondering how that relat
 
 so let's talk a bit about Anna and is a very well controlled very predictable very well behaving girl 
 
-##### Observable, Mutable Data
+### Observable, Mutable Data
 
 1. Excels at complex, coupled domains
 2. And complex, deep calculations
@@ -190,7 +190,7 @@ so redux is all about predictability at schools predictable state container and 
 
 next on the other hand tries to get simplicity by making sure that your state is as small as possible and as many things as possible are derived from your state so that there's no redundancy and those kind of things 
 
-### The Quest For
+## The Quest For
 
 > A minimally defined, *snapshot-able state container* with replayable, KISS *actions* and efficient, *transparent* reactive *derivations*
 
@@ -214,7 +214,7 @@ so let's go back to my demo let's find this oh yeah this one so we had this demo
 
 so basically this is because a snapshot is just another transformation of the state you just transform it into some Jason tree structure 
 
-### Problems
+## Problems
 
 1. No standardized serialization (“serializr” package helps)
 2. Deep serializing state is expensive
@@ -222,7 +222,7 @@ so basically this is because a snapshot is just another transformation of the st
 
 there are some problems with this approach though it's a bit limited and one of the problems is that because mum x is an opinionated it doesn't know how to serialize your state if you use just a tree estate without glasses it's easy to see you lies in to deserialize but if you use classes classes don't have a concert in Jason so it cannot deduct from your Jason which plaza to to instantiate so for that the share life's packets I was introduced makes more simple but there are more problems Deep's utilizing your state is very expensive because you need if you have a large state you need to walk your entire tree make a complete copy of that and it's not only expensive CP 0 CPU is so it's also expensive memory wise because you will be filling up memory like crazy by copying your state it's not something has changed so it likes structural sharing 
 
-### Solutions
+## Solutions
 
 1. Trees are easy to serialize
 2. A snapshot is a derived value
@@ -230,7 +230,7 @@ there are some problems with this approach though it's a bit limited and one of 
 
 lets these problems cannot be solved it's a nice thing so what you can do is it you can constrain ourselves to trees because trees are easy to serialize and we also know that snapshots are just drive failures and robux is very good at driving value and we even know that we can solve the social sharing problem because basically rendering aid zoom is also a structural sharing problem if you change some data we want to correct components to update I want the other components to be left alone so that's also social sharing that's just another form so apparently these are solvable problems 
 
-##### MobX computed values
+### MobX computed values
 
 and to show you how this can be solved quite easily I'm gonna take first a bit deeper dive into computers values you're ready to solve them 
 
@@ -287,7 +287,7 @@ console.log(person.fullName)
 
 then what will happen if we change the first name that will trigger the computed value to be rerun needs to be derived again because the baking data changed but after that if we are printed twice it doesn't need to reevaluate because it knows that it can reuse its previous answer because there was no data changed in the meantime so actually here you have sexual sharing and the most minimal form both those log statements will Prince exactly the same array just an effect of inversion of control 
 
-### Snapshotting Observable Mutable Data
+## Snapshotting Observable Mutable Data
 
 ```javascript
 class Todo {
@@ -344,13 +344,13 @@ snapshot6.png
 
 so you get structural sharing for free if you use computed values to share large your state so that's actually something very cool I think 
 
-### mobx-state-tree
+## mobx-state-tree
 
 *Opinionated, MobX powered state container*
 
 so based on that ID I recently published an experimental package it's a so much work progress but it's based on those IDs and it's this time opinionated so it tells you how to secure your stores but as a return you get things like time traveling a structural sharing 
 
-### Core Concepts
+## Core Concepts
 
 > state is a tree of models
 
@@ -364,7 +364,7 @@ and those models can be mutable they can be reached they can be observed ball yo
 
 but for every model there's always a snapshot which is immutable with your presents the state of the model at that moment in time and the snapshots use social sharing 
 
-### Factories
+## Factories
 
 ```javascript
 const myModelFactory = createFactory({
@@ -438,7 +438,7 @@ onSnapshot(model, callback)
 
 so basically there are three functions to work for snapshots you can pass a model to the gets natural function and then get the snapshot at the moment in time I can also apply a snapshot back to an existing model instance I will see in funnier you can also subscribe to every time any snapshot is available 
 
-### Time Travelling
+## Time Travelling
 
 ```javascript
 const states = [];
@@ -459,7 +459,7 @@ function previousState() {
 
 and with this you can build very easily time traveling while having the benefits of sexual sharing and knots doing expensive computations so what's if you so say we have some store we can just listen to new step shots coming in push it on some array and then we can easily apply some shit back to the existing store if you want to play back or forward 
 
-### Snapshots & Forms
+## Snapshots & Forms
 
 ```javascript
 const todoEditor({todo}) => (
@@ -484,7 +484,7 @@ function clone(model) {
 
 an actually clone is just invoking the factory of the model by with the snapshot of the model then get a new copy the exact same instance 
 
-### Snapshots & Testing
+## Snapshots & Testing
 
 ```javascript
 const todo = clone(exampleTodo)
@@ -498,7 +498,7 @@ assert.deepEqual(getSnapshot(todo), {
 
 I lived as you can also make testing very easy because you can just clone some base data and folk some actions on it and then check whether the snapshots represents the correct state so if he marked as completed it should be true 
 
-### Snapshots & Jest
+## Snapshots & Jest
 
 07.gif
 
@@ -515,7 +515,7 @@ but there's more we can do so you just saw this application but actually there a
 
 </cut>
 
-### Snapshots & Syncing
+## Snapshots & Syncing
 
 ```javascript
 onSnapshot(store, (data) => {
@@ -527,7 +527,7 @@ onSocketMessage((data) => {
 })
 ```
 
-### Patches
+## Patches
 
 08.jpg
 
