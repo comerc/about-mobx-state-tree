@@ -874,3 +874,5 @@ onSnapshot(cool.part.of.the.state, snapshot => {
 ![](images/14.gif)
 
 so just try it out I hope just interesting to see this happening but what's even more important to remember than justice Pegasus that you saw that a transactional state is just one reactive transformation away reactive transformations are actually very powerful concepts it's like if you have normal function applications which are very aesthetic which he needs to enter manually and then you have like the entered the era of movies and things are actually reacting so sorry i can't course lady for spec it's a thanks for your attention
+
+author Michel Weststrate [github](https://github.com/mweststrate) [twitter](https://twitter.com/mweststrate)
