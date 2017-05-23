@@ -50,7 +50,7 @@ so actually I would say that the view is a transformation of your state it's jus
 
 so that means that the consistency of your I your UI is always guaranteed whenever regardless how it is changed or when it is changed so having a synchronous processes as mobis know fundamentally different from having synchronous process you don't have to do any special tricks for death it's just a change of the states in the future but we know it will react 
 
-01.png
+![data flow](images/01.png)
 
 so the basic flow of data and Mobius is that there's a central state which captures all your states of your application and it should be as small as possible because many things can just be derived from a state like ashes like the dome those are all just computed values so from the state they're computed values are derived and also side effects might be triggered for example if you change some data a network request might need to be made and so whenever it has an action influences your state we know that everything that comes after the state will be consistent 
 
@@ -66,11 +66,11 @@ so there are four essential functions in the API all phone bags and one is obser
 
 so this is what we use a public forum index [this](https://www.mendix.com/collaborative-visual-development/) is an application available studio you can drag a widget and change them there for properties so you can build forms and pages it was actually more interesting is that we also have a designer which you can design your database so these are basically database tables these are associations and what we make sure is that whenever we drag things around now for example you see the arrows moving around and actually we didn't do anything special for that basically robux just make sure for us that that is kept consistent and i'll show you how that works in a simplified version 
 
-02.png
+![](images/02.png)
 
 so here you have the very essence of that same editor a lot more simplified but inspired by exactly the same mechanisms it's a doesn't have less or more optimizations or something the British balls are exactly the same and so what this looks behind the scenes 
 
-03.png
+![](images/03.png)
 
 so what we have here is a simple very simple JSON JavaScript structure to describe to our state so we have an array of butchers this is my font and we have an array of arrows and for books as we use glasses but for arrows you just use plain JavaScript objects just to show that you can use both so actually what is interesting is that these arrows again have direct references to the boxes we have they don't use normalization they don't store strings just reference to the boxes so what we effectively have is a graph of data because the arrows connected boxes into the part of the same store and actually so far this application doesn't do anything yet it has some components for example here's a components their tendency books it has a diff with coordinates and when you drag it it will update the properties of the books but it doesn't do anything yet because react doesn't take care of that itself it takes care four loko side but not for data you pass into components in general so what you basically need to do is to bring this application alive to make it reactive and so to do that we just as I said earlier we have to make sure our state's observable so just makes estate observable and if you have boxes then you can instead use decorators for that so by default mobic shall make plain JavaScript objects in the entirety observable they use glasses then you have fine-grained control over which attributes you want to be observable and with actually as a property that can be drive from an arpeggio states namely the name so that one with Marcus computed and if you're in debt and actually still nothing will happen except the sidebar apparently the sidebar is observing our state but the components cannot be direct yet but what's interesting is that we actually didn't do anything with our state yet we kept into the same shape the actions don't worry change they still are straightforward as they were before and so what you can do now is that we can mark our components as observer so for example the Kansas components maps of the arrows and episode the boxes I'll observe make sure that whenever something relevant changes to those collections it will render so basically it's an full replacement of the concept of shoot component update and those kind of things because it just means that the components can be derived from the state so what you can add the ways that you can now drag this thing along and the interesting thing is that the arrow stage connected connected and we actually in this view we never explicitly mentioned that this arrow depends on the box but more vex knows that it depends on the box because we're using the from box of the arrow from that book she uses x coordinates so another this fallacy to be tracked actually you can see that by investigating the component and it will tell you which species of data were relevant for the rendering of this component and so these exact pieces of data will be observed so this is a very fine-grained very optimized way of making sure that the proper pieces of sites are used for the rendering and trigger an update and actually was nice to look at that was Miss click so I want this arrow and we see now that this error depends on the from and to property of the arrow will pass into it and it's x and y coordinates of the two boxes related to it now this is what move ex has determined for us so what's interesting to see what happens if we change so now the arrows if you see them they're connected to the left of the box not to the middle let's beat ugly so we can easily change that by for example using the no not that one similar hadn't programming it's a new work achievement unlocked so now we started using the wave of those boxes in our rendering which we didn't before so it can now start to drag this book surrounds you see it's now attached to the middle and if you inspect its dependencies again if I can manage to click that one pixel I their machine now that it also depends on the width and the name of the box and actually it doesn't depend on the outer box so frankly I you sooo wrong one okay I had to use better styling anyway you get you get a clue but what is funny is now if you look at look I've made just so hard for myself did somebody bring a mouse okay so it depends on the with what you actually see is that because the riff is a computed value it's not the value on its own but it's again a value that depends on another value namely the name of the box because the web is just the name multiplied by a constant so what actually is happening now is that something you might just developer very easily forget but if you now changed in the name of this box you see that the error will move to the right because it has traces dependency tree and we now chasing the name will mix notice that the name is relevant for the wave and that's relevant for the rendering of the arrow and so these are usually this kind of educators you easily forget us a programmer and then you and then we finally think about it then you have to go to the feature in your calls that's change the name of the box and make sure that it's a boxer's change arrows re-rendered which is a completely unrelated our feature so this means that you would increase the the mob of work left to do islam you add a feature because suddenly the name becomes relevant for the rendering of the arrow which wasn't before just because you wanted to use proper coordinates 
 
@@ -149,7 +149,7 @@ so a lot of questions to answer is should you use immutable a beautiful data esp
 
 or will also say should you use radix or mobiles 
 
-04.jpg
+![Redux or MobX](images/04.jpg)
 
 or maybe even better question Elsa or Anna you might be wondering how that relates but the basic point is I have two small daughters so this is a question I get the most they're always arguing over who should have should play who 
 
@@ -196,7 +196,7 @@ next on the other hand tries to get simplicity by making sure that your state is
 
 so what's actually interesting is that the philosophies of those two concepts I'm principle not conflicting so that's brought me to the quest for a snapshot of all set so the which is replayable says you can have transactions while still having the convenience of audacious actions which are straightforward and which don't require you to reproduce a whole new world whenever you try to change the tiniest bit 
 
-05.png
+![combine two different directions](images/05.png)
 
 so that's a bit like trying to combine two different directions 
 
@@ -320,27 +320,27 @@ class TodoStore {
 
 and if you have then a to do store with a collection of the deuce then you can just map over the two deuce if you try to get its Jason representation and for any to do that was not changed it will just reuse the same Jason representation 
 
-snapshot1.png
+![](images/snapshot1.png)
 
 so what happens if i multiply property over here 
 
-snapshot2.png
+![](images/snapshot2.png)
 
 a new step shots I knew Jason reputation will be generated 
 
-snapshot3.png
+![](images/snapshot3.png)
 
 that will trigger the computed value and the boxes collection to be updated so it will run the map again 
 
-snapshot4.png
+![](images/snapshot4.png)
 
 but the map will reuse the old snapshots of the other to do is wrong slice should be to those anyway point is clear 
 
-snapshot5.png
+![](images/snapshot5.png)
 
 and so on and so on 
 
-snapshot6.png
+![](images/snapshot6.png)
 
 so you get structural sharing for free if you use computed values to share large your state so that's actually something very cool I think 
 
@@ -419,7 +419,7 @@ const Store = createFactory({
 
 and for the store the same there we can use the map off and the array of bonfires so that's what makes story knows how to what the shape of this object is and how to share your light it and the selection this time is no longer a reference like it was previously it's now a string because it was a reference then you would get a graph and then it would be hard to infer how it wouldn't need to be serialized so it's open yet it but also a little bit more you have a little bit more boy played an MMO Bix and we have to see where it is worth the effort or not 
 
-06.jpg
+![](images/06.jpg)
 Representation of the state of a model at a particular moment in time
 
 so let's talk about those snapshots again 
@@ -500,7 +500,7 @@ I lived as you can also make testing very easy because you can just clone some b
 
 ## Snapshots & Jest
 
-07.gif
+![Snapshots & Jest](images/07.gif)
 
 ```javascript
 expect(getSnapshot(todo)).toMatchSnapshot()
@@ -529,7 +529,7 @@ onSocketMessage((data) => {
 
 ## Patches of JSON
 
-08.jpg
+![Patches of JSON](images/08.jpg)
 
 JSON-patch rfc6902. Changes need to be broadcasted!
 
@@ -585,24 +585,24 @@ so I've now attests to listeners to the tree one to the root I want to a specifi
 
 then I get two pitches emitted by its listener image 1 pitch and they emit other with the correct path relatively to the position they were attached to put it in a picture 
 
-patch1.png
+![](images/patch1.png)
 
 if I change something here 
 
-patch2.png
+![](images/patch2.png)
 
 it's a Miss bitch over here with this relative path 
 
-patch3.png
+![](images/patch3.png)
 
 but also of there and describing relatively to that point where in the state tree it changed 
 
-patch4.png
+![](images/patch4.png)
 
 and see that zebra it's actually see you see it's a recursive structure 
 
 ## Actions
 
-09.png
+![actions](images/09.png)
 
 ok on to actions you saw that we were just moving actions moving boxes by invoking a function so that's that doesn't look replayable at all and we said we want three playable actions to be able to have transactional state so what fix a tree do does is it's reverse responsibility of the developer so if you use the radix then you have to provide a shield Sheila's version of your action a plain object describing what should happen but my biggest a tree does it worse you just invoke a function and it gives you the description of your action because sometimes like me are lazy so a lecture mobic say tree is just like this it's plain just a function we marked a section and it can just change that instance of the box so if you move it with just read coordinates and we don't have to reproduce any world new state here we can just change this localized object and so we can then just invoke that box and move it around the fractions are two functions so we can we just listen to the fact that an action or sandbox UKISS can say please apply this action back to this object so we can replay it and that looks roughly like this actions election is very similar to the previous ones except it can be used as middleware so it receives an extinction and so here we have basically a middleware on the store the prince what action is involved so if we then move a box in the store then it prints I on this path this is this method was involved with these arguments and see your large for so what you can then do of course you should know the drill right now is it whenever there is an action and get some data and next fixed in the middle chain we can sense that description over the wire we can evoke the next layer in the middleware and if we receive images we can just apply the action to our store so if we now move the books don't know patches images but descriptions of the action so we now see that we first move the box and then we changed the selection apparently so that's just to demonstrate that actions are replayable and you can also do that for forms suppose you have a form and then environment when their collaboration happening they can just clone the object and apply the snapshot back because the meantime somebody else might also have changed the same object like if you have a Google Docs or something like that so a smarter thing to do is then cloned you object you have two minutes left how many oh I'm gonna talk quickly and then apply it back and actually you don't and the answer turns out you don't really have to have a tree as well to do all these things you can even do this roof across but I'm gonna leave death as exercise for home because I haven't heard a cool demo so so far we have a state tree with a snapshot of all and we set available actions okay yeah hola takes checks so ah it's the best of two worlds but there's one more demo last one I promise now not last one last one so is to do MPC the radix to MPC you might have seen before and so here are dirty text if tools yeah so you can change it and then you can replay it back at sea right sidra you might have seen this before this is just the basic reading stuff actually the fun thing is that this is not entirely read each application it has a red ejections and your three dicks dispatcher at us radix components you're a tech dev tools but it doesn't have a radix store and it doesn't have any reducers and cylis replayable and that's because it uses a big state tree behind the scenes now be at as a possible well turns out because we have three sections we can just mimic a ridic store with a state tree so what we just do is that we have a simple function that takes a muvek say to the base store and returns a radix store and then passes it down to the radix provider components and then I think keeps working at this and something thing is that that raid extortion is as simple as this get state is basically synonym for get the current snapshot of the state and this path is basically please replay the section on my state tree a similar subscribing to the next version of the world is basically subscribing to the next snapshot so and then our store looks more like this which is I think a lot more set for work don't get confused if this case thing that's because we want to preserve the old redox name actions and because we have that it also worked your way around so I here have my read except tools again but now with our original demo and she that's even in this entire more big space application it doesn't have any rejection it's great except tools still work because it's just really it's just a subset of this mechanism so just try it out I hope just interesting to see this happening but what's even more important to remember than justice Pegasus that you saw that a transactional state is just one reactive transformation away reactive transformations are actually very powerful concepts it's like if you have normal function applications which are very aesthetic which he needs to enter manually and then you have like the entered the era of movies and things are actually reacting so sorry i can't course lady for spec it's a thanks for your attention
