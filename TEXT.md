@@ -60,7 +60,7 @@ so there are four essential functions in the API all phone bags and one is obser
 
 *(Не представляю, как переводить этот кусок. На слайдах его нет. Докладчик демонстрирует live-coding. Наверно тупо пропустить со ссылкой на подобное - [тынц](https://habrahabr.ru/post/282578/))*
 
-<cut>
+<demo>
 
 ## Mendix / Live Demo
 
@@ -96,7 +96,7 @@ we don't need to coordinate with each other about its pieces of data we're using
 
 we node need to know is what is the shape of the data we have with which classes to exist which attributes do they have 
 
-</cut>
+</demo>
 
 ## Example: validation rules
 
@@ -508,12 +508,11 @@ expect(getSnapshot(todo)).toMatchSnapshot()
 
 and it also integrates very nicely if just don't know who has used just before but it's pretty awesome it you can just say I expect the snapshot to match the record snapshot and then if you change some data it will give an error the search field and then you should either fix your implementation or you can just say this is not a crack snapshot this change is correctly storage snapshot for me and it's really awesome at work if I can recommend it dolly for staples are for a testing react components 
 
-(вырезаю демо)
-<cut>
+<demo>
 
 but there's more we can do so you just saw this application but actually there are more of them and what was the interesting is to sink this application with the other one which turns out to be very easily once you have snapshots so what you can do is that whenever we have a new snapshot we can send it over its socket contract it at once we receive data over socket we can just apply the snapshots back to our existing store yeah it looks okay so if a now start dragging it you see on the bottom right all the snapshots of the states being synced over the web sockets and as till I kept completely in sync so that's because we have a way to sterilize our state very easily 
 
-</cut>
+</demo>
 
 ## Snapshots & Syncing
 
@@ -605,4 +604,273 @@ and see that zebra it's actually see you see it's a recursive structure
 
 ![actions](images/09.png)
 
-ok on to actions you saw that we were just moving actions moving boxes by invoking a function so that's that doesn't look replayable at all and we said we want three playable actions to be able to have transactional state so what fix a tree do does is it's reverse responsibility of the developer so if you use the radix then you have to provide a shield Sheila's version of your action a plain object describing what should happen but my biggest a tree does it worse you just invoke a function and it gives you the description of your action because sometimes like me are lazy so a lecture mobic say tree is just like this it's plain just a function we marked a section and it can just change that instance of the box so if you move it with just read coordinates and we don't have to reproduce any world new state here we can just change this localized object and so we can then just invoke that box and move it around the fractions are two functions so we can we just listen to the fact that an action or sandbox UKISS can say please apply this action back to this object so we can replay it and that looks roughly like this actions election is very similar to the previous ones except it can be used as middleware so it receives an extinction and so here we have basically a middleware on the store the prince what action is involved so if we then move a box in the store then it prints I on this path this is this method was involved with these arguments and see your large for so what you can then do of course you should know the drill right now is it whenever there is an action and get some data and next fixed in the middle chain we can sense that description over the wire we can evoke the next layer in the middleware and if we receive images we can just apply the action to our store so if we now move the books don't know patches images but descriptions of the action so we now see that we first move the box and then we changed the selection apparently so that's just to demonstrate that actions are replayable and you can also do that for forms suppose you have a form and then environment when their collaboration happening they can just clone the object and apply the snapshot back because the meantime somebody else might also have changed the same object like if you have a Google Docs or something like that so a smarter thing to do is then cloned you object you have two minutes left how many oh I'm gonna talk quickly and then apply it back and actually you don't and the answer turns out you don't really have to have a tree as well to do all these things you can even do this roof across but I'm gonna leave death as exercise for home because I haven't heard a cool demo so so far we have a state tree with a snapshot of all and we set available actions okay yeah hola takes checks so ah it's the best of two worlds but there's one more demo last one I promise now not last one last one so is to do MPC the radix to MPC you might have seen before and so here are dirty text if tools yeah so you can change it and then you can replay it back at sea right sidra you might have seen this before this is just the basic reading stuff actually the fun thing is that this is not entirely read each application it has a red ejections and your three dicks dispatcher at us radix components you're a tech dev tools but it doesn't have a radix store and it doesn't have any reducers and cylis replayable and that's because it uses a big state tree behind the scenes now be at as a possible well turns out because we have three sections we can just mimic a ridic store with a state tree so what we just do is that we have a simple function that takes a muvek say to the base store and returns a radix store and then passes it down to the radix provider components and then I think keeps working at this and something thing is that that raid extortion is as simple as this get state is basically synonym for get the current snapshot of the state and this path is basically please replay the section on my state tree a similar subscribing to the next version of the world is basically subscribing to the next snapshot so and then our store looks more like this which is I think a lot more set for work don't get confused if this case thing that's because we want to preserve the old redox name actions and because we have that it also worked your way around so I here have my read except tools again but now with our original demo and she that's even in this entire more big space application it doesn't have any rejection it's great except tools still work because it's just really it's just a subset of this mechanism so just try it out I hope just interesting to see this happening but what's even more important to remember than justice Pegasus that you saw that a transactional state is just one reactive transformation away reactive transformations are actually very powerful concepts it's like if you have normal function applications which are very aesthetic which he needs to enter manually and then you have like the entered the era of movies and things are actually reacting so sorry i can't course lady for spec it's a thanks for your attention
+> What if an action description is the effect, instead of the cause of a function call?
+
+ok on to actions you saw that we were just moving actions moving boxes by invoking a function so that's that doesn't look replayable at all and we said we want three playable actions to be able to have transactional state so what fix a tree do does is it's reverse responsibility of the developer so if you use the radix then you have to provide a shield Sheila's version of your action a plain object describing what should happen but my biggest a tree does it worse you just invoke a function and it gives you the description of your action because sometimes like me are lazy 
+
+```javascript
+const Box = createFactory({
+  x: 0,
+  y: 0,
+  move: action(function(dx, dy) {
+    this.x += dx
+    this.y += dy
+  })
+})
+```
+
+so a lecture mobic say tree is just like this it's plain just a function we marked a section and it can just change that instance of the box so if you move it with just read coordinates and we don't have to reproduce any world new state here we can just change this localized object 
+
+```javascript
+box1.move(10, 10)
+```
+
+and so we can then just invoke that box and move it around 
+
+```javascript
+onAction(model, callback)
+```
+
+```javascript
+applyAction(model, actionCall)
+```
+
+the fractions are two functions so we can we just listen to the fact that an action or sandbox UKISS can say please apply this action back to this object so we can replay it 
+
+```javascript
+onAction(store, (action, next) => {
+  console.dir(action)
+  return next()
+})
+
+store.get("ce9131ee").move(23, -8)
+```
+
+and that looks roughly like this actions election is very similar to the previous ones except it can be used as middleware so it receives an extinction and so here we have basically a middleware on the store the prince what action is involved 
+
+```javascript
+// prints:
+{
+  "name":"move",
+  "path":"/boxes/ce9131ee",
+  "args":[23,-8]
+}
+```
+
+so if we then move a box in the store then it prints I on this path this is this method was involved with these arguments and see your large for 
+
+## Actions & Syncing
+
+```javascript
+onAction(store, (data, next) => {
+  const res = next()
+  socketSend(data)
+  return res
+})
+
+onSocketMessage((data) => {
+  applyAction(store, data)
+})
+```
+
+so what you can then do of course you should know the drill right now is it whenever there is an action and get some data and next fixed in the middle chain we can sense that description over the wire we can evoke the next layer in the middleware and if we receive images we can just apply the action to our store so if we now move the books don't know patches images but descriptions of the action so we now see that we first move the box and then we changed the selection apparently so that's just to demonstrate that actions are replayable 
+
+## Actions & Forms
+
+```javascript
+function editTodo(todo) {
+  const todoCopy = clone(todo)
+  const actionLog = []
+
+  onAction(todoCopy, (action, next) => {
+    actionLog.push(action)
+    return next()
+  })
+
+  showEditForm(todoCopy, () => {
+    applyActions(todo, actionLog)
+  })
+}
+```
+
+and you can also do that for forms suppose you have a form and then environment when their collaboration happening they can just clone the object and apply the snapshot back because the meantime somebody else might also have changed the same object like if you have a Google Docs or something like that so a smarter thing to do is then cloned you object you have two minutes left how many oh I'm gonna talk quickly and then apply it back 
+
+- Based on MobX actions
+- Unlock part of the state tree for editing
+- Emit action events, apply middleware
+- Straight forward
+- Bound
+
+## References
+
+![](images/10.png)
+
+```javascript
+const myFavoriteBox = store.boxes.get("abc123")
+
+store.selection = myFavoriteBox
+
+//  Throws: element is already part of a state tree
+
+store.selection = myFavoriteBox.id
+```
+
+```javascript
+const Store = createFactory({
+  boxes: mapOf(Box),
+  selectionId: '',
+
+  get selection() {
+    return this.selectionId ? this.boxes.get(this.selectionId) : null
+  },
+  set selection(value) {
+    this.selectionId = value ? value.id : null
+  }
+})
+```
+
+```javascript
+const Store = createFactory({
+    boxes: mapOf(Box),
+    selection: referenceTo("/boxes/id")
+})
+```
+
+```javascript
+const myFavoriteBox = store.boxes.get("abc123")
+
+store.selection = myFavoriteBox
+```
+
+and actually you don't and the answer turns out you don't really have to have a tree as well to do all these things you can even do this roof across but I'm gonna leave death as exercise for home because I haven't heard a cool demo 
+
+## mobx-state-tree resume
+
+> A minimally defined,
+
+> *snapshot-able*
+
+> *state container*
+
+> with replayable *actions*
+
+> and efficient, *transparent* reactive *derivations*
+
+> *& ... patches, middleware, references, dependency injection...*
+
+so so far we have a state tree with a snapshot of all and we set available actions okay yeah hola takes checks 
+
+![](images/11.png)
+
+so ah it's the best of two worlds but there's one more demo last one I promise now not last one last one 
+
+<demo>
+
+so is to do MPC the radix to MPC you might have seen before and so here are dirty text if tools yeah so you can change it and then you can replay it back at sea right sidra you might have seen this before this is just the basic reading stuff 
+
+</demo>
+
+- redux actions
+- redux dispatching
+- redux provider & connect
+- redux devtools
+- ~~redux store~~
+- ~~redux reducers~~
+- mobx-state-tree factories
+- mobx-state-tree actions
+
+actually the fun thing is that this is not entirely read each application it has a red ejections and your three dicks dispatcher at us radix components you're a tech dev tools but it doesn't have a radix store and it doesn't have any reducers and cylis replayable and that's because it uses a big state tree behind the scenes 
+
+![](images/12.jpg)
+
+now be at as a possible 
+
+```javascript
+const initialState = {
+  todos: [{
+    text: 'learn mobx-state-tree',
+    completed: false,
+    id: 0
+  }]
+}
+
+const store = TodoStore(initialState)
+const reduxStore = asReduxStore(store)
+
+render(
+  <Provider store={reduxStore}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+
+connectReduxDevtools(store)
+```
+
+well turns out because we have three sections we can just mimic a ridic store with a state tree so what we just do is that we have a simple function that takes a muvek say to the base store and returns a radix store and then passes it down to the radix provider components and then I think keeps working at this 
+
+```javascript
+function asReduxStore(model) {
+  return {
+    getState : ()       => getSnapshot(model),
+    dispatch : action   => {
+      applyAction(model, reduxActionToAction(action))
+    },
+    subscribe: listener => onSnapshot(model, listener)
+  }
+}
+```
+
+and something thing is that that raid extortion is as simple as this get state is basically synonym for get the current snapshot of the state and this path is basically please replay the section on my state tree a similar subscribing to the next version of the world is basically subscribing to the next snapshot 
+
+
+```javascript
+const Todo = createFactory({
+  text: 'Use mobx-state-tree',
+  completed: false,
+  id: 0
+})
+
+const TodoStore = createFactory({
+  todos: arrayOf(Todo),
+
+  COMPLETE_TODO: action(function ({id}) {
+    const todo = this.findTodoById(id)
+    todo.completed = !todo.completed
+  }),
+
+  findTodoById: function (id) {
+    return this.todos.find(todo => todo.id === id)
+  }
+})
+```
+
+so and then our store looks more like this which is I think a lot more set for work don't get confused if this case thing that's because we want to preserve the old redox name actions 
+
+<demo>
+
+and because we have that it also worked your way around so I here have my read except tools again but now with our original demo and she that's even in this entire more big space application it doesn't have any rejection it's great except tools still work because it's just really it's just a subset of this mechanism 
+
+</demo>
+
+```javascript
+import cool from "my-cool-store"
+
+const app = Elm.Main.embed(myHtmlElement);
+
+app.ports.myPort.subscribe(data => {
+  applySnapshot(cool.part.of.the.state, data)
+})
+
+onSnapshot(cool.part.of.the.state, snapshot => {
+  app.ports.myPort.send(snapshot)
+})
+```
+
+> Try mobx-state-tree, transactional state is just reactive transformation away
+
+![](images/13.png)
+
+![](images/14.gif)
+
+so just try it out I hope just interesting to see this happening but what's even more important to remember than justice Pegasus that you saw that a transactional state is just one reactive transformation away reactive transformations are actually very powerful concepts it's like if you have normal function applications which are very aesthetic which he needs to enter manually and then you have like the entered the era of movies and things are actually reacting so sorry i can't course lady for spec it's a thanks for your attention
