@@ -527,8 +527,82 @@ onSocketMessage((data) => {
 })
 ```
 
-## Patches
+## Patches of JSON
 
 08.jpg
 
-but that's more the nice thing about observable data and contracts the immutable data is that you know exactly what has been changed inside the data you don't get a new copy of the complete world where just the only thing you know is that this is the new world but you can actually see because it's fine grained observed ball what is actually changed so the obligatory baguettes also support Jason pictures out of the box which is a standard to synchronize changes of Jason for that it provides two functions on pets with s triggered it's time I pets is emitted and apply pets so this is very similar to snapshots exactly except that I just sink pictures and patches are of course we're not sure to synchronize because if you have a large tea tree the these objections are st. become really really large and I wouldn't do that in production so it's better instead to listen two batches so if there's a bitch now we want to send pets to the other side and if your Shiva pets we just want to apply the patch so if I now drag you see there are only very small objects send along regardless how big our state has thrown its just saying please replace in this part in the state 32 x value with this new value that's adjacent patches do so this you can use affect effectively to integrate with a backend of some sort and actually a nice thing about obex a tree because it's three it's actually fractal structure it's a it's a three consisting of three consisting of trees so what you could do is not just register a pets listener on the root of the tree he could attest best listener at any point in the tree and so that's something very funny happens so I've now attests to listeners to the tree one to the root I want to a specific books in the tree and then I start moving one of those book that book extra then I start moving netbooks then I get two pitches emitted by its listener image 1 pitch and they emit other with the correct path relatively to the position they were attached to put it in a picture if I change something here it's a Miss bitch over here with this relative path but also of there and describing relatively to that point where in the state tree it changed and see that zebra it's actually see you see it's a recursive structure ok on to actions you saw that we were just moving actions moving boxes by invoking a function so that's that doesn't look replayable at all and we said we want three playable actions to be able to have transactional state so what fix a tree do does is it's reverse responsibility of the developer so if you use the radix then you have to provide a shield Sheila's version of your action a plain object describing what should happen but my biggest a tree does it worse you just invoke a function and it gives you the description of your action because sometimes like me are lazy so a lecture mobic say tree is just like this it's plain just a function we marked a section and it can just change that instance of the box so if you move it with just read coordinates and we don't have to reproduce any world new state here we can just change this localized object and so we can then just invoke that box and move it around the fractions are two functions so we can we just listen to the fact that an action or sandbox UKISS can say please apply this action back to this object so we can replay it and that looks roughly like this actions election is very similar to the previous ones except it can be used as middleware so it receives an extinction and so here we have basically a middleware on the store the prince what action is involved so if we then move a box in the store then it prints I on this path this is this method was involved with these arguments and see your large for so what you can then do of course you should know the drill right now is it whenever there is an action and get some data and next fixed in the middle chain we can sense that description over the wire we can evoke the next layer in the middleware and if we receive images we can just apply the action to our store so if we now move the books don't know patches images but descriptions of the action so we now see that we first move the box and then we changed the selection apparently so that's just to demonstrate that actions are replayable and you can also do that for forms suppose you have a form and then environment when their collaboration happening they can just clone the object and apply the snapshot back because the meantime somebody else might also have changed the same object like if you have a Google Docs or something like that so a smarter thing to do is then cloned you object you have two minutes left how many oh I'm gonna talk quickly and then apply it back and actually you don't and the answer turns out you don't really have to have a tree as well to do all these things you can even do this roof across but I'm gonna leave death as exercise for home because I haven't heard a cool demo so so far we have a state tree with a snapshot of all and we set available actions okay yeah hola takes checks so ah it's the best of two worlds but there's one more demo last one I promise now not last one last one so is to do MPC the radix to MPC you might have seen before and so here are dirty text if tools yeah so you can change it and then you can replay it back at sea right sidra you might have seen this before this is just the basic reading stuff actually the fun thing is that this is not entirely read each application it has a red ejections and your three dicks dispatcher at us radix components you're a tech dev tools but it doesn't have a radix store and it doesn't have any reducers and cylis replayable and that's because it uses a big state tree behind the scenes now be at as a possible well turns out because we have three sections we can just mimic a ridic store with a state tree so what we just do is that we have a simple function that takes a muvek say to the base store and returns a radix store and then passes it down to the radix provider components and then I think keeps working at this and something thing is that that raid extortion is as simple as this get state is basically synonym for get the current snapshot of the state and this path is basically please replay the section on my state tree a similar subscribing to the next version of the world is basically subscribing to the next snapshot so and then our store looks more like this which is I think a lot more set for work don't get confused if this case thing that's because we want to preserve the old redox name actions and because we have that it also worked your way around so I here have my read except tools again but now with our original demo and she that's even in this entire more big space application it doesn't have any rejection it's great except tools still work because it's just really it's just a subset of this mechanism so just try it out I hope just interesting to see this happening but what's even more important to remember than justice Pegasus that you saw that a transactional state is just one reactive transformation away reactive transformations are actually very powerful concepts it's like if you have normal function applications which are very aesthetic which he needs to enter manually and then you have like the entered the era of movies and things are actually reacting so sorry i can't course lady for spec it's a thanks for your attention
+JSON-patch rfc6902. Changes need to be broadcasted!
+
+but that's more the nice thing about observable data and contracts the immutable data is that you know exactly what has been changed inside the data you don't get a new copy of the complete world where just the only thing you know is that this is the new world but you can actually see because it's fine grained observed ball what is actually changed so the obligatory baguettes also support Jason pictures out of the box which is a standard to synchronize changes of Jason
+
+```javascript
+  onPatch(model, calback)
+```
+
+```javascript
+  applyPatch(model, jsonPatch)
+```
+
+for that it provides two functions on pets with s triggered it's time I pets is emitted and apply pets so this is very similar to snapshots exactly except that I just sink pictures 
+
+## Patches & Syncing
+
+```javascript
+onPatch(store, (data) => {
+  socketSend(data)
+})
+
+onSocketMessage((data) => {
+  applyPatch(store, data)
+})
+```
+
+and patches are of course we're not sure to synchronize. because if you have a large tea tree the these objections are st. become really really large and I wouldn't do that in production so it's better instead to listen two batches so if there's a bitch now we want to send pets to the other side and if your Shiva pets we just want to apply the patch so if I now drag you see there are only very small objects send along regardless how big our state has thrown its just saying please replace in this part in the state 32 x value with this new value that's adjacent patches do so this you can use affect effectively to integrate with a backend of some sort 
+
+## Patches
+
+```javascript
+onPatch(store, patch => console.dir(patch))
+
+onPatch(store.box.get("0d42afa6"), patch => console.dir(patch))
+```
+
+and actually a nice thing about obex a tree because it's three it's actually fractal structure it's a it's a three consisting of three consisting of trees so what you could do is not just register a pets listener on the root of the tree he could attest best listener at any point in the tree and so that's something very funny happens 
+
+```javascript
+store.box.get("0d42afa6").move(5, 0)
+```
+
+so I've now attests to listeners to the tree one to the root I want to a specific books in the tree and then I start moving one of those book that book extra then I start moving netbooks 
+
+```javascript
+// output:
+
+{ op: "replace", path: "/boxes/0d42afa6/x", value: 105 }
+
+{ op: "replace", path: "/x", value: 105 }
+```
+
+then I get two pitches emitted by its listener image 1 pitch and they emit other with the correct path relatively to the position they were attached to put it in a picture 
+
+patch1.png
+
+if I change something here 
+
+patch2.png
+
+it's a Miss bitch over here with this relative path 
+
+patch3.png
+
+but also of there and describing relatively to that point where in the state tree it changed 
+
+patch4.png
+
+and see that zebra it's actually see you see it's a recursive structure 
+
+## Actions
+
+09.png
+
+ok on to actions you saw that we were just moving actions moving boxes by invoking a function so that's that doesn't look replayable at all and we said we want three playable actions to be able to have transactional state so what fix a tree do does is it's reverse responsibility of the developer so if you use the radix then you have to provide a shield Sheila's version of your action a plain object describing what should happen but my biggest a tree does it worse you just invoke a function and it gives you the description of your action because sometimes like me are lazy so a lecture mobic say tree is just like this it's plain just a function we marked a section and it can just change that instance of the box so if you move it with just read coordinates and we don't have to reproduce any world new state here we can just change this localized object and so we can then just invoke that box and move it around the fractions are two functions so we can we just listen to the fact that an action or sandbox UKISS can say please apply this action back to this object so we can replay it and that looks roughly like this actions election is very similar to the previous ones except it can be used as middleware so it receives an extinction and so here we have basically a middleware on the store the prince what action is involved so if we then move a box in the store then it prints I on this path this is this method was involved with these arguments and see your large for so what you can then do of course you should know the drill right now is it whenever there is an action and get some data and next fixed in the middle chain we can sense that description over the wire we can evoke the next layer in the middleware and if we receive images we can just apply the action to our store so if we now move the books don't know patches images but descriptions of the action so we now see that we first move the box and then we changed the selection apparently so that's just to demonstrate that actions are replayable and you can also do that for forms suppose you have a form and then environment when their collaboration happening they can just clone the object and apply the snapshot back because the meantime somebody else might also have changed the same object like if you have a Google Docs or something like that so a smarter thing to do is then cloned you object you have two minutes left how many oh I'm gonna talk quickly and then apply it back and actually you don't and the answer turns out you don't really have to have a tree as well to do all these things you can even do this roof across but I'm gonna leave death as exercise for home because I haven't heard a cool demo so so far we have a state tree with a snapshot of all and we set available actions okay yeah hola takes checks so ah it's the best of two worlds but there's one more demo last one I promise now not last one last one so is to do MPC the radix to MPC you might have seen before and so here are dirty text if tools yeah so you can change it and then you can replay it back at sea right sidra you might have seen this before this is just the basic reading stuff actually the fun thing is that this is not entirely read each application it has a red ejections and your three dicks dispatcher at us radix components you're a tech dev tools but it doesn't have a radix store and it doesn't have any reducers and cylis replayable and that's because it uses a big state tree behind the scenes now be at as a possible well turns out because we have three sections we can just mimic a ridic store with a state tree so what we just do is that we have a simple function that takes a muvek say to the base store and returns a radix store and then passes it down to the radix provider components and then I think keeps working at this and something thing is that that raid extortion is as simple as this get state is basically synonym for get the current snapshot of the state and this path is basically please replay the section on my state tree a similar subscribing to the next version of the world is basically subscribing to the next snapshot so and then our store looks more like this which is I think a lot more set for work don't get confused if this case thing that's because we want to preserve the old redox name actions and because we have that it also worked your way around so I here have my read except tools again but now with our original demo and she that's even in this entire more big space application it doesn't have any rejection it's great except tools still work because it's just really it's just a subset of this mechanism so just try it out I hope just interesting to see this happening but what's even more important to remember than justice Pegasus that you saw that a transactional state is just one reactive transformation away reactive transformations are actually very powerful concepts it's like if you have normal function applications which are very aesthetic which he needs to enter manually and then you have like the entered the era of movies and things are actually reacting so sorry i can't course lady for spec it's a thanks for your attention
