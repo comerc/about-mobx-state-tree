@@ -853,20 +853,6 @@ and because we have that it also worked your way around so I here have my read e
 
 </demo>
 
-```javascript
-import cool from "my-cool-store"
-
-const app = Elm.Main.embed(myHtmlElement);
-
-app.ports.myPort.subscribe(data => {
-  applySnapshot(cool.part.of.the.state, data)
-})
-
-onSnapshot(cool.part.of.the.state, snapshot => {
-  app.ports.myPort.send(snapshot)
-})
-```
-
 > Try mobx-state-tree, transactional state is just reactive transformation away
 
 ![](images/13.png)
